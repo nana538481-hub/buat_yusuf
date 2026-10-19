@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Prendd | Bestie Challenge 💗</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f8fafc;
+            background:
+                radial-gradient(ellipse at 10% 10%, #312e81 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 90%, #701a75 0%, transparent 40%),
+                #080b16;
+        }
+
+        .mono { font-family: 'Space Mono', monospace; }
+
+        .glass {
+            background: rgba(18, 23, 43, .88);
+            border: 1px solid rgba(148, 163, 184, .2);
+            box-shadow: 0 0 45px rgba(99, 102, 241, .12);
+            backdrop-filter: blur(18px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #67e8f9, #c4b5fd, #f9a8d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .glow-photo {
+            box-shadow: 0 0 0 3px #a78bfa,
+                        0 0 25px rgba(192, 132, 252, .45);
+        }
+
+        .btn {
+            transition: transform .2s, filter .2s, background .2s;
+        }
+
+        .btn:hover {
+            filter: brightness(1.12);
+            transform: translateY(-2px);
+        }
+
+        .btn:active { transform: scale(.97); }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 14px;
+            border: 1px solid #303751;
+            border-radius: 14px;
+            background: #171d32;
+            color: #e2e8f0;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #a78bfa;
+            background: #252342;
+            transform: translateX(3px);
+        }
+
+        .option-btn:disabled { cursor: default; }
+
+        .correct {
+            border-color: #34d399 !important;
+            background: rgba(16, 185, 129, .13) !important;
+        }
+
+        .wrong {
+            border-color: #fb7185 !important;
+            background: rgba(244, 63, 94, .12) !important;
+        }
+
+        .page { animation: enter .4s ease both; }
+
+        @keyframes enter {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            pointer-events: none;
+            z-index: 20;
+            animation: rise 4s linear forwards;
+        }
+
+        @keyframes rise {
+            to {
+                transform: translateY(-110vh) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* FOTO AKU YANG MELAYANG */
+        .flying-photo {
+            position: fixed;
+            width: 76px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 2px solid #f9a8d4;
+            box-shadow: 0 0 18px rgba(236, 72, 153, .5);
+            opacity: .88;
+            pointer-events: none;
+            z-index: 1;
+            animation: photoFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes photoFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-8deg);
+            }
+            50% {
+                transform: translateY(-22px) rotate(8deg);
+            }
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hidden { display: none !important; }
+
+        button:focus-visible {
+            outline: 2px solid #c4b5fd;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 600px) {
+            .flying-photo {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                opacity: .75;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <main class="glass w-full max-w-md rounded-3xl p-5 sm:p-7 my-5 overflow-hidden">
+
+        <!-- HEADER -->
+        <header class="text-center mb-6">
+            <div class="relative inline-block mb-4">
+                <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 blur opacity-80"></div>
+
+                <img
+                    src="fotoku.jpeg"
+                    alt="Foto Ma Prendd"
+                    class="relative w-24 h-24 rounded-full object-cover glow-photo bg-slate-800"
+                >
+            </div>
+
+            <p class="mono text-[10px] tracking-[3px] text-cyan-300">
+                ✦ BESTIE CONNECTION SYSTEM ✦
+            </p>
+
+            <div class="mt-3 flex items-center justify-center gap-2 text-xs text-slate-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                SYSTEM ONLINE
+            </div>
+        </header>
+
+        <!-- PAGE 1: WELCOME -->
+        <section id="step-1" class="page text-center space-y-5">
+            <div>
+                <p class="text-4xl mb-3 float">👾</p>
+
+                <h1 class="text-3xl font-extrabold leading-tight">
+                    Halo, <span class="gradient-text">Ma Prendd</span>!
+                </h1>
+
+                <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+                    Teman paling random telah terdeteksi!
+                    Tapi pertanyaannya, seberapa kenal kamu sama aku?
+                </p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="rounded-xl bg-white/5 p-3 border border-white/5">
+                    <p class="text-xl">🧠</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Tebak Aku</p>
+                </div>
+
+                <div class="rounded-xl bg-white/5 p-3 border border-white/5">
+                    <p class="text-xl">🎯</p>
+                    <p class="text-[10px] text-slate-400 mt-1">3 Tantangan</p>
+                </div>
+
+                <div class="rounded-xl bg-white/5 p-3 border border-white/5">
+                    <p class="text-xl">💌</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Pesan Rahasia</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-violet-300">
+                ⚠️ Siap-siap, jawabanmu akan diadili wkwk.
+            </p>
+
+            <button onclick="nextStep(2)"
+                class="btn w-full rounded-xl py-3.5 font-extrabold text-slate-950 bg-gradient-to-r from-cyan-300 to-violet-300">
+                MULAI MISI 🚀
+            </button>
+        </section>
+
+        <!-- PAGE 2: RULES -->
+        <section id="step-2" class="page hidden text-center space-y-5">
+            <p class="text-4xl">📜</p>
+
+            <h2 class="text-2xl font-extrabold">Aturan Mainnya!</h2>
+
+            <p class="text-sm text-slate-400 leading-relaxed">
+                Jawab tiga pertanyaan tentang aku. Pilih jawaban yang menurutmu benar.
+                Kalau salah, ada tantangan random menunggumu!
+            </p>
+
+            <div class="space-y-3 text-left text-sm">
+                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                    <span class="text-cyan-300 font-bold">01.</span>
+                    Pilih satu jawaban untuk setiap pertanyaan.
+                </div>
+
+                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                    <span class="text-violet-300 font-bold">02.</span>
+                    Jawaban yang sudah dipilih tidak bisa diubah.
+                </div>
+
+                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                    <span class="text-pink-300 font-bold">03.</span>
+                    Selesaikan semuanya untuk membuka pesan rahasia.
+                </div>
+            </div>
+
+            <button onclick="nextStep(3)"
+                class="btn w-full rounded-xl py-3.5 font-bold bg-violet-500 hover:bg-violet-400">
+                GASPOL, AKU BERANI! 🔥
+            </button>
+
+            <button onclick="nextStep(1)"
+                class="btn text-xs text-slate-500 hover:text-white">
+                ← Kembali
+            </button>
+        </section>
+
+        <!-- PAGE 3: QUIZ -->
+        <section id="step-3" class="page hidden space-y-5">
+            <div class="flex justify-between items-center">
+                <span class="mono text-[10px] text-cyan-300">BESTIE QUIZ</span>
+                <span id="quiz-level" class="mono text-[10px] text-slate-400">ROUND 01/03</span>
+            </div>
+
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar"
+                    class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-violet-400 transition-all duration-500"
+                    style="width: 33.33%">
+                </div>
+            </div>
+
+            <div class="rounded-2xl p-4 bg-violet-500/10 border border-violet-400/20">
+                <p class="text-xs text-violet-300 mb-2">PERTANYAAN BUAT KAMU 👀</p>
+
+                <h2 id="quiz-question" class="font-bold leading-relaxed text-sm">
+                    Pertanyaan akan muncul di sini.
+                </h2>
+            </div>
+
+            <div id="quiz-options" class="space-y-2"></div>
+
+            <div id="feedback-box" class="hidden rounded-xl p-4 border text-sm">
+                <p id="feedback-title" class="font-extrabold mb-1"></p>
+                <p id="feedback-text" class="text-xs leading-relaxed"></p>
+
+                <div id="punishment-section"
+                    class="hidden mt-3 p-3 rounded-lg bg-amber-400/10 border border-amber-300/20">
+
+                    <p class="text-[10px] text-amber-300 font-bold mb-1">
+                        ⚡ TANTANGAN BUAT KAMU
+                    </p>
+
+                    <p id="punishment-text" class="text-xs leading-relaxed"></p>
+                </div>
+
+                <button id="next-btn" onclick="nextQuiz()"
+                    class="btn w-full mt-4 rounded-xl py-3 bg-violet-500 font-bold text-xs">
+                    LANJUT →
+                </button>
+            </div>
+
+            <p class="text-center text-[10px] text-slate-500">
+                Pilih dengan hati-hati, bestie. Sistem sedang mengawasimu 🤨
+            </p>
+        </section>
+
+        <!-- PAGE 4: RESULT -->
+        <section id="step-4" class="page hidden text-center space-y-5">
+            <p class="text-5xl float">🎉</p>
+
+            <p class="mono text-[10px] tracking-widest text-emerald-300">
+                MISSION ACCOMPLISHED
+            </p>
+
+            <h2 class="text-3xl font-extrabold">
+                Kamu Berhasil, <span class="gradient-text">Ma prend!</span>
+            </h2>
+
+            <div class="rounded-2xl p-5 bg-white/5 border border-white/10">
+                <p class="text-xs text-slate-400">SKOR KAMU</p>
+
+                <p id="final-score" class="text-5xl font-extrabold gradient-text my-2">
+                    0/3
+                </p>
+
+                <p id="score-message" class="text-sm text-slate-300">
+                    Terima kasih sudah ikut misi ini!
+                </p>
+            </div>
+
+            <div class="rounded-2xl p-4 text-left bg-violet-500/10 border border-violet-400/20">
+                <p class="text-sm font-bold text-violet-200 mb-2">
+                    💌 Sedikit pesan dari aku...
+                </p>
+
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Makasih banyak ya udah jadi teman online yang super asik,
+                    selalu nemenin aku skripsian meskipun cuma telponan,
+                    dengerin cerita random aku, dan ngerti kalau aku plenger dikit
+                    hihihihi.
+                    <br><br>
+                    <span class="font-bold text-cyan-300">You're a keeper! 🫶</span>
+                </p>
+            </div>
+
+            <button id="secret-btn" onclick="showSecret()"
+                class="btn w-full rounded-xl py-3.5 font-extrabold bg-gradient-to-r from-pink-500 to-violet-500">
+                BUKA PESAN RAHASIA 💗
+            </button>
+
+            <!-- SECRET: FUN FACT + PHOTO -->
+            <div id="secret-box"
+                class="hidden rounded-2xl p-4 border border-pink-400/30 bg-pink-500/10">
+
+                <p class="mono text-[10px] text-pink-300 tracking-widest mb-3">
+                    ✦ A LITTLE SECRET ✦
+                </p>
+
+                <p id="secret-text" class="text-sm leading-relaxed text-pink-100"></p>
+
+                <div class="my-4 flex justify-center">
+                    <img
+                        id="secret-photo"
+                        src="fotoku.jpeg"
+                        alt="Foto Ma Prendd"
+                        class="w-44 h-44 rounded-2xl object-cover border-2 border-pink-300 shadow-lg"
+                    >
+                </div>
+
+                <p class="text-xs text-pink-200">
+                    From me, Ma Prendd, with love. 💗
+                </p>
+
+                <button onclick="nextSecret()"
+                    class="btn mt-4 w-full rounded-xl py-2.5 bg-pink-500/20 border border-pink-300/30 text-xs font-bold">
+                    FUN FACT LAINNYA 🎲
+                </button>
+            </div>
+
+            <button onclick="resetQuiz()"
+                class="btn w-full rounded-xl py-3 border border-white/10 bg-white/5 text-sm font-bold">
+                🔄 ULANGI MISI
+            </button>
+        </section>
+
+        <footer class="mt-7 pt-4 border-t border-white/10 text-center">
+            <p class="mono text-[9px] text-slate-600">
+                MADE WITH CHAOS & A LITTLE LOVE ♡
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        // FOTO AKU MELAYANG DI SEKITAR WEBSITE
+        function addFlyingPhotos() {
+            const positions = [
+                { top: "12%", left: "3%" },
+                { top: "30%", right: "3%" },
+                { bottom: "15%", left: "4%" },
+                { bottom: "28%", right: "4%" }
+            ];
+
+            positions.forEach((pos, index) => {
+                const photo = document.createElement("img");
+
+                photo.src = "fotoku.jpeg";
+                photo.alt = "Foto Ma Prendd";
+                photo.className = "flying-photo";
+                photo.style.animationDelay = `${index * 0.7}s`;
+
+                Object.assign(photo.style, pos);
+
+                photo.onerror = () => photo.remove();
+
+                document.body.appendChild(photo);
+            });
+        }
+
+        addFlyingPhotos();
+
+        // DATA PERTANYAAN
+        const quizData = [
+            {
+                question: "1. Kalau lagi mau nonton film, genre apa yang paling sering aku pilih?",
+                options: [
+                    {
+                        text: "💕 Romantis menye-menye",
+                        correct: false,
+                        roast: "Salah wkwk! Nanti aku malah ketiduran."
+                    },
+                    {
+                        text: "🎬 Action yang seru dan tegang",
+                        correct: true,
+                        praise: "Tepat sekali! Aku suka yang bikin deg-degan."
+                    },
+                    {
+                        text: "🐼 Dokumenter hewan lucu",
+                        correct: false,
+                        roast: "Lucu sih, tapi bukan favorit utamaku!"
+                    },
+                    {
+                        text: "😂 Komedi jadul",
+                        correct: false,
+                        roast: "Boleh juga, tapi action tetap nomor satu."
+                    }
+                ]
+            },
+            {
+                question: "2. Apa camilan wajib yang cocok buat nemenin aku saat begadang?",
+                options: [
+                    {
+                        text: "🌶️ Keripik pedas level dewa",
+                        correct: false,
+                        roast: "Waduh, perutku bisa demo nanti!"
+                    },
+                    {
+                        text: "🍫 Cokelat batangan mahal",
+                        correct: false,
+                        roast: "Enak sih, tapi bukan jawaban utamanya."
+                    },
+                    {
+                        text: "🍌 Keripik pisang rasa original",
+                        correct: true,
+                        praise: "Bingo! Simpel, tapi enak banget!"
+                    },
+                    {
+                        text: "🍜 Seblak kuah instan",
+                        correct: false,
+                        roast: "Itu mah makan berat, bukan camilan!"
+                    }
+                ],
+                punishment: "Kamu wajib traktir aku keripik pisang original secepatnya! WKWK 🍌"
+            },
+            {
+                question: "3. Apa yang paling sering bikin aku ketawa saat chat sama kamu?",
+                options: [
+                    {
+                        text: "😍 Gombalan maut aku",
+                        correct: false,
+                        roast: "Eits, itu mah kamu yang gombalin aku kali wkwk."
+                    },
+                    {
+                        text: "📚 Chat serius sepanjang hari",
+                        correct: false,
+                        roast: "Kita kan sukanya ngobrol random!"
+                    },
+                    {
+                        text: "🤣 Lawakan random dan meme absurd kamu",
+                        correct: true,
+                        praise: "Iya! Receh banget, tapi itu yang bikin seru."
+                    },
+                    {
+                        text: "⌨️ Typo chat aku",
+                        correct: false,
+                        roast: "ya dikit sih tapi tetap aja salah itu lohhhh!"
+                    }
+                ]
+            }
+        ];
+
+        const generalPunishments = [
+            "🎤 Kirim voice note nyanyi lagu apa saja selama 15 detik!",
+            "👑 Chat aku pakai kalimat 'Selamat malam, Yang Mulia!'",
+            "🤪 Kirim pose paling konyol yang berani kamu kirim.",
+            "💖 Puji aku dengan kata-kata kreatif. Dilarang cuma bilang 'cantik'!"
+        ];
+
+        const secrets = [
+            "Fun Fact: Kamu salah satu teman online yang bikin aku nyaman ngobrol apa saja. 💗",
+            "Fun Fact: Kadang aku senyum-senyum sendiri pas baca chat random kita. 🤭",
+            "Fun Fact: Selera humor kita sama-sama receh, dan itu yang bikin obrolan seru!",
+            "Fun Fact: Aku bersyukur kita bisa kenal, meskipun awalnya cuma teman online. 🫶",
+            "Fun Fact: Obrolan random kita kadang jadi bagian kecil yang bikin hariku lebih seru. ✨"
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+        let answered = false;
+        let secretIndex = -1;
+
+        function nextStep(step) {
+            document.querySelectorAll("main > section").forEach(section => {
+                section.classList.add("hidden");
+            });
+
+            const page = document.getElementById("step-" + step);
+            page.classList.remove("hidden");
+
+            page.classList.remove("page");
+            void page.offsetWidth;
+            page.classList.add("page");
+
+            if (step === 3) loadQuiz();
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function loadQuiz() {
+            answered = false;
+
+            const current = quizData[currentQuizIndex];
+
+            document.getElementById("quiz-level").textContent =
+                `ROUND ${String(currentQuizIndex + 1).padStart(2, "0")}/03`;
+
+            document.getElementById("progress-bar").style.width =
+                `${((currentQuizIndex + 1) / quizData.length) * 100}%`;
+
+            document.getElementById("quiz-question").textContent = current.question;
+
+            const container = document.getElementById("quiz-options");
+            container.innerHTML = "";
+
+            document.getElementById("feedback-box").classList.add("hidden");
+            document.getElementById("punishment-section").classList.add("hidden");
+
+            current.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.className = "option-btn flex items-center justify-between gap-3";
+
+                const label = document.createElement("span");
+                label.textContent = option.text;
+
+                const number = document.createElement("span");
+                number.className = "mono text-[10px] text-slate-500 shrink-0";
+                number.textContent = "0" + (index + 1);
+
+                button.append(label, number);
+                button.addEventListener("click", () => handleAnswer(option, button));
+
+                container.appendChild(button);
+            });
+        }
+
+        function handleAnswer(option, selectedButton) {
+            if (answered) return;
+            answered = true;
+
+            const feedback = document.getElementById("feedback-box");
+            const title = document.getElementById("feedback-title");
+            const text = document.getElementById("feedback-text");
+            const punishment = document.getElementById("punishment-section");
+
+            feedback.classList.remove("hidden");
+
+            document.querySelectorAll("#quiz-options button").forEach(button => {
+                button.disabled = true;
+            });
+
+            if (option.correct) {
+                score++;
+                selectedButton.classList.add("correct");
+
+                title.textContent = "BENAR! 🎉";
+                title.className = "font-extrabold mb-1 text-emerald-300";
+                text.textContent = option.praise;
+
+                feedback.style.borderColor = "rgba(52, 211, 153, .4)";
+                feedback.style.background = "rgba(16, 185, 129, .08)";
+
+                makeHearts();
+            } else {
+                selectedButton.classList.add("wrong");
+
+                const correctOption =
+                    quizData[currentQuizIndex].options.find(o => o.correct);
+
+                document.querySelectorAll("#quiz-options button").forEach((button, index) => {
+                    if (quizData[currentQuizIndex].options[index].correct) {
+                        button.classList.add("correct");
+                    }
+                });
+
+                title.textContent = "YAHH, SALAH! 😭";
+                title.className = "font-extrabold mb-1 text-rose-300";
+
+                text.textContent =
+                    option.roast + " Jawaban yang benar: " + correctOption.text;
+
+                feedback.style.borderColor = "rgba(251, 113, 133, .4)";
+                feedback.style.background = "rgba(244, 63, 94, .06)";
+
+                document.getElementById("punishment-text").textContent =
+                    currentQuizIndex === 1 && quizData[1].punishment
+                        ? quizData[1].punishment
+                        : generalPunishments[
+                            Math.floor(Math.random() * generalPunishments.length)
+                        ];
+
+                punishment.classList.remove("hidden");
+            }
+
+            document.getElementById("next-btn").textContent =
+                currentQuizIndex === quizData.length - 1
+                    ? "LIHAT HASIL AKHIR ✨"
+                    : "LANJUT KE PERTANYAAN BERIKUTNYA →";
+
+            setTimeout(() => {
+                feedback.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+            }, 100);
+        }
+
+        function nextQuiz() {
+            if (!answered) return;
+
+            currentQuizIndex++;
+
+            if (currentQuizIndex < quizData.length) {
+                loadQuiz();
+
+                document.getElementById("step-3").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById("final-score").textContent =
+                `${score}/${quizData.length}`;
+
+            let message;
+
+            if (score === 3) {
+                message = "WOAH! Kamu kenal aku banget. Bestie level dewa! 🏆";
+            } else if (score === 2) {
+                message = "Lumayan banget! Tinggal sedikit lagi jadi detektif terbaikku. 🕵️";
+            } else if (score === 1) {
+                message = "Hmm, sepertinya kita perlu lebih banyak ngobrol random nih! 😂";
+            } else {
+                message = "WKWKWK, kita kenalan lagi dari awal yuk! 😭";
+            }
+
+            document.getElementById("score-message").textContent = message;
+
+            document.getElementById("secret-box").classList.add("hidden");
+            document.getElementById("secret-btn").disabled = false;
+            document.getElementById("secret-btn").classList.remove("opacity-50");
+
+            nextStep(4);
+            makeHearts();
+        }
+
+        function showSecret() {
+            const box = document.getElementById("secret-box");
+
+            if (box.classList.contains("hidden")) {
+                box.classList.remove("hidden");
+
+                document.getElementById("secret-btn").textContent =
+                    "PESAN RAHASIA TERBUKA 💗";
+
+                document.getElementById("secret-btn").disabled = true;
+                document.getElementById("secret-btn").classList.add("opacity-50");
+
+                nextSecret(true);
+                makeHearts();
+
+                setTimeout(() => {
+                    box.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest"
+                    });
+                }, 100);
+            }
+        }
+
+        function nextSecret(firstOpen = false) {
+            if (firstOpen) {
+                secretIndex = Math.floor(Math.random() * secrets.length);
+            } else {
+                let newIndex;
+
+                do {
+                    newIndex = Math.floor(Math.random() * secrets.length);
+                } while (secrets.length > 1 && newIndex === secretIndex);
+
+                secretIndex = newIndex;
+            }
+
+            document.getElementById("secret-text").textContent =
+                secrets[secretIndex];
+
+            const photo = document.getElementById("secret-photo");
+            photo.style.transform = "scale(.92)";
+            photo.style.transition = "transform .25s ease";
+
+            setTimeout(() => {
+                photo.style.transform = "scale(1)";
+            }, 50);
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            answered = false;
+            secretIndex = -1;
+
+            document.getElementById("secret-box").classList.add("hidden");
+            document.getElementById("secret-btn").disabled = false;
+            document.getElementById("secret-btn").classList.remove("opacity-50");
+
+            document.getElementById("secret-btn").textContent =
+                "BUKA PESAN RAHASIA 💗";
+
+            nextStep(1);
+        }
+
+        function makeHearts() {
+            const symbols = ["💗", "✨", "💜", "💕"];
+
+            for (let i = 0; i < 12; i++) {
+                const heart = document.createElement("span");
+
+                heart.className = "heart";
+                heart.textContent =
+                    symbols[Math.floor(Math.random() * symbols.length)];
+
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (14 + Math.random() * 15) + "px";
+                heart.style.animationDelay = (Math.random() * 1.5) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 6000);
+            }
+        }
+    </script>
+</body>
+</html>
